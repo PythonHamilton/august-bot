@@ -47,7 +47,10 @@ class Bot(object):
         else:
             try:
                 s = " ".join(self.create_sentence(self.monte_carlo, 20))
-                s = s[0].upper() + s[1:].lower() + "."
+                if s[-1] not in STOP_PUNCTUATION:
+                    s = s[0].upper() + s[1:].lower() + "..."
+                else:
+                    s = s[0].upper() + s[1:].lower()
                 return s
 
             except KeyError:
