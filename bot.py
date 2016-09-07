@@ -1,10 +1,10 @@
 import random
 
+
 class Bot(object):
+    sentences = ""
 
-   sentences = ""
-
-   def populate_monte_carlo(self):
+    def populate_monte_carlo(self):
         monte_carlo = {}
         word_buffer = []
         text = self.sentences.split(' ')
@@ -20,8 +20,7 @@ class Bot(object):
                 word_buffer.append(word)
         return monte_carlo
 
-
-   def create_sentence(self, monte_carlo, max_length):
+    def create_sentence(self, monte_carlo, max_length):
         initial_key = random.choice(list(monte_carlo.keys()))
         sentence = initial_key.split()
         while len(sentence) < max_length:
@@ -33,12 +32,11 @@ class Bot(object):
                 return sentence
         return sentence
 
-   def add_sentence(self, sentence):
-       self.sentences += sentence+" "
-       self.monte_carlo = self.populate_monte_carlo()
+    def add_sentence(self, sentence):
+        self.sentences += sentence+" "
+        self.monte_carlo = self.populate_monte_carlo()
 
-   def get_sentence(self):
-
+    def get_sentence(self):
         if len(self.sentences) < 50:
             return "Feed me more"
         else:
