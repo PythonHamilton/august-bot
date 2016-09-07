@@ -7,7 +7,7 @@ class Bot(object):
     def populate_monte_carlo(self):
         monte_carlo = {}
         word_buffer = []
-        text = self.sentences.split(' ')
+        text = self.sentences.split(" ")
         for word in text:
             if len(word_buffer) == 3:
                 key = "{WORD1} {WORD2}".format(WORD1=word_buffer[0], WORD2=word_buffer[1])
@@ -33,7 +33,7 @@ class Bot(object):
         return sentence
 
     def add_sentence(self, sentence):
-        self.sentences += sentence+" "
+        self.sentences += sentence + " "
         self.monte_carlo = self.populate_monte_carlo()
 
     def get_sentence(self):
@@ -42,7 +42,7 @@ class Bot(object):
         else:
             try:
                 s = " ".join(self.create_sentence(self.monte_carlo, 20))
-                s = s[0].upper()+s[1:].lower()+"."
+                s = s[0].upper() + s[1:].lower() + "."
                 return s
 
             except KeyError:
