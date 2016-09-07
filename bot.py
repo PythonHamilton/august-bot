@@ -1,5 +1,7 @@
 import random
 
+STOP_PUNCTUATION = [".", "?"]
+
 
 class Bot(object):
     sentences = ""
@@ -16,7 +18,7 @@ class Bot(object):
                 else:
                     monte_carlo[key] = [word_buffer[2]]
                 word_buffer.pop(0)
-            if word.isalpha():
+            if word.isalpha() or word in [",", ";", ".", "?"]:
                 word_buffer.append(word)
         return monte_carlo
 
@@ -27,7 +29,10 @@ class Bot(object):
             key = "{WORD1} {WORD2}".format(WORD1=sentence[-2], WORD2=sentence[-1])
             options = monte_carlo[key]
             if options:
-                sentence.append(random.choice(options))
+                value = random.choice(options)
+                sentence.append(value)
+                if value in STOP_PUNCTUATION:
+                    return sentence
             else:
                 return sentence
         return sentence
