@@ -24,12 +24,12 @@ class Bot(object):
                 word_buffer.append(word)
         return state_changed
 
-    def create_sentence(self, monte_carlo, max_length):
-        initial_key = random.choice(list(monte_carlo.keys()))
+    def create_sentence(self, max_length):
+        initial_key = random.choice(list(self.monte_carlo.keys()))
         sentence = initial_key.split()
         while len(sentence) < max_length:
             key = "{WORD1} {WORD2}".format(WORD1=sentence[-2], WORD2=sentence[-1])
-            options = self.monte_carlo[key]
+            options = self.monte_carlo.get(key)
             if options:
                 value = random.choice(options)
                 sentence.append(value)
@@ -44,7 +44,7 @@ class Bot(object):
             return "Feed me more"
         else:
             try:
-                s = " ".join(self.create_sentence(self.monte_carlo, 20))
+                s = " ".join(self.create_sentence(20))
                 if s[-1] not in STOP_PUNCTUATION:
                     s = s[0].upper() + s[1:] + "..."
                 else:
@@ -52,4 +52,4 @@ class Bot(object):
                 return s
 
             except KeyError:
-                return str(self.create_sentence(self.monte_carlo, 20))
+                return str(self.create_sentence(20))
