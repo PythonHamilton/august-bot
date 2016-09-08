@@ -3,21 +3,18 @@ import random
 STOP_PUNCTUATION = [".", "?"]
 
 
-def is_valid(sentence):
-    return True
-
-
 class Bot(object):
     def __init__(self):
         self.monte_carlo = {}
-        self.sentences = ""
 
-    def add_to_monte_carlo(self, sentence):
+    def add_sentence(self, sentence):
+        state_changed = False
         word_buffer = []
-        text = self.sentences.split(" ")
+        text = sentence  # regex here
         for word in text:
             if len(word_buffer) == 3:
                 key = "{WORD1} {WORD2}".format(WORD1=word_buffer[0], WORD2=word_buffer[1])
+                state_changed = True
                 if key in self.monte_carlo:
                     self.monte_carlo[key].append(word_buffer[2])
                 else:
@@ -25,6 +22,7 @@ class Bot(object):
                 word_buffer.pop(0)
             if word.isalpha() or word in [",", ";", ".", "?"]:
                 word_buffer.append(word)
+        return state_changed
 
     def create_sentence(self, monte_carlo, max_length):
         initial_key = random.choice(list(monte_carlo.keys()))
@@ -41,13 +39,8 @@ class Bot(object):
                 return sentence
         return sentence
 
-    def add_sentence(self, sentence):
-        if is_valid(sentence):
-            self.sentences += sentence + " "
-            self.add_to_monte_carlo(sentence)
-
     def get_sentence(self):
-        if len(self.sentences) < 50:
+        if len(self.monte_carlo) < 50:
             return "Feed me more"
         else:
             try:
