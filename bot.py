@@ -52,4 +52,4 @@ class Bot(object):
                 return s
 
             except KeyError:
-                return "I speak not know how"
+                return str(self.create_sentence(self.monte_carlo, 20))
