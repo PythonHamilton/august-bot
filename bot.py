@@ -11,6 +11,9 @@ class Bot(object):
         state_changed = False
         word_buffer = []
         text = sentence.split(" ")  # regex here
+        if len(text) < 3:
+            return False
+        text.append("")  # it feels dirty because it is dirty
         for word in text:
             if len(word_buffer) == 3:
                 key = "{WORD1} {WORD2}".format(WORD1=word_buffer[0], WORD2=word_buffer[1])
